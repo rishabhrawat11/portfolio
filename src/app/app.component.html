@@ -1,3 +1,37 @@
-<h1>
-  {{title}}
-</h1>
+<style>
+  .fbtab{
+
+    left:40px;  /* change this to left: 1px; to put it on the left of the screen */
+    top:38%;height:41px;width:30px;margin:0;padding:0;position:fixed;z-index:5000;
+    color: white;
+  }
+  .fbtab a{display:block;width:100%;height:100%;}
+
+  .intab{
+
+    left:40px;  /* change this to left: 1px; to put it on the left of the screen */
+    top:46%;height:41px;width:30px;margin:0;padding:0;position:fixed;z-index:5000;
+    color: white;
+  }
+  .intab a{display:block;width:100%;height:100%;}
+
+  .lntab{
+
+    left:40px;  /* change this to left: 1px; to put it on the left of the screen */
+    top:54%;height:41px;width:30px;margin:0;padding:0;position:fixed;z-index:5000;
+    color: white;
+  }
+  .lntab a{display:block;width:100%;height:100%;}
+</style>
+<div class="app-container">
+  <span class="fbtab"><a href="https://www.facebook.com/rishabh.rawat.142240" target="_blank"><img src="../assets/icons/facebook.png" alt=""></a></span>
+  <span class="intab"><a href="https://www.instagram.com/rishabhrawat23/" target="_blank"><img src="../assets/icons/instagram.png" alt=""></a></span>
+  <span class="lntab"><a href="https://www.linkedin.com/in/rishabh-rawat-27043b126" target="_blank"><img src="../assets/icons/linkedin.png" alt=""></a></span>
+<div>
+    <my-header></my-header>
+</div>
+<div class="content">
+    <router-outlet></router-outlet>
+  <port-footer></port-footer>
+</div>
+</div>
