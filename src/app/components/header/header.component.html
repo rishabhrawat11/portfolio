@@ -5,12 +5,15 @@
 }
 
 nav {
-  margin: 50px 0px 50px ;
-  margin-left: 27%;
+  padding: 20px 0px 20px ;
+  padding-left: 55%;
+  width:100%;
   display: inline-block;
   text-align: center;
   position: absolute;
   z-index: 2;
+  background-color: rgba(0,0,0,0.3);
+  position: fixed;
 }
 
 ul {
@@ -35,7 +38,7 @@ li a {
   color: #000;
   font: 15px/1 'Josefin Slab', serif ;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: bolder;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -48,17 +51,16 @@ li a:hover {
 }
 
 li.active a {
-    background: #00ff00;
+
   /*background-image: -webkit-linear-gradient(top, #00ff00, #29d119);*/
   /*background-image: -moz-linear-gradient(top, #00ff00, #29d119);*/
   /*background-image: -ms-linear-gradient(top, #00ff00, #29d119);*/
   /*background-image: -o-linear-gradient(top, #00ff00, #29d119);*/
   /*background-image: linear-gradient(to bottom, #00ff00, #29d119);*/
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
+
+  border-bottom: 3px solid white;
   font-family: 'Josefin Slab', serif;
-  font-weight: 800;
+  font-weight: bolder;
   color: #ffffff;
   font-size: 15px;
   padding: 10px 20px 10px 20px;
@@ -67,9 +69,10 @@ li.active a {
 
 
 </style>
-<nav class="hide-for-small-only">
+<nav class="hide-for-small-only hide-for-medium-only" [class.fixed]="navIsFixed" fixed-navbar>
   <div class="content-header">
   <ul>
+
     <li  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a  [routerLink]="['/']">Home</a></li>
     <li [routerLinkActive]="['active']" ><a   [routerLink]="['gallery']">Gallery</a></li>
     <li [routerLinkActive]="['active']"><a   [routerLink]="['blogs']">Blogs</a></li>

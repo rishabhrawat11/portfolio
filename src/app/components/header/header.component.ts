@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnInit, Inject, HostListener, ElementRef} from '@angular/core';
+import {DOCUMENT} from "@angular/platform-browser";
 
 @Component({
     selector:'my-header',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
 })
 
 export class HeaderComponent {
-    
+
+
 }

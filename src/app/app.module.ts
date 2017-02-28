@@ -10,6 +10,7 @@ import {ContactComponent} from "./components/contact/contact.component";
 import {BlogComponent} from "./components/blog/blog.component";
 import {AboutComponent} from "./components/about/about.component";
 import {FooterComponent} from "./components/footer/footer.component";
+import {HeaderDirectives} from "./components/header/header.directive";
 
 
 
@@ -23,6 +24,7 @@ import {FooterComponent} from "./components/footer/footer.component";
         BlogComponent,
         AboutComponent,
         FooterComponent,
+        HeaderDirectives
 
 
     ],
