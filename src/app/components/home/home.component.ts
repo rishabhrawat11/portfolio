@@ -1,5 +1,7 @@
 import {Component, trigger, state, style} from '@angular/core';
 
+
+
 @Component({
     selector:'my-home',
     templateUrl:'./home.component.html',

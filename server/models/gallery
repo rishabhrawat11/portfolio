@@ -1,0 +1,10 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var gallery_schema = new Schema({
+  image: {data: Buffer, contentType: String},
+  title: {type: String},
+  likes: {type: Number, default:0}
+});
+
+module.exports = mongoose.model('Gallery',gallery_schema);

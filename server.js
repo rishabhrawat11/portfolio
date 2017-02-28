@@ -3,9 +3,14 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 
+var mongoose = require('mongoose');
+
 const api = require('./server/routes/api');
 
 const app = express();
+mongoose.connect('mongodb://localhost/portfolio',function(){
+  console.log("database is connected");
+});
 
 //Parse data for POST request
 app.use(bodyParser.json());
@@ -30,4 +35,6 @@ app.set('port',port);
 const server = http.createServer(app);
 
 //Listen on provided port, on all network interfaces
-server.listen(port, ()=> console.log(`API running on localhost:${port}`));
+server.listen(port, function(){
+  console.log("API Server is running at"+ port);
+});
