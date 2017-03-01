@@ -11,6 +11,8 @@ import {BlogComponent} from "./components/blog/blog.component";
 import {AboutComponent} from "./components/about/about.component";
 import {FooterComponent} from "./components/footer/footer.component";
 import {HeaderDirectives} from "./components/header/header.directive";
+import {Ng2PageScrollModule} from "ng2-page-scroll";
+import {ng2parallax} from "./components/directives/ng2ParallaxDirectives";
 
 
 
@@ -24,11 +26,12 @@ import {HeaderDirectives} from "./components/header/header.directive";
         BlogComponent,
         AboutComponent,
         FooterComponent,
-        HeaderDirectives
+        HeaderDirectives,
+        ng2parallax
 
 
     ],
-    imports: [BrowserModule, routing],
+    imports: [BrowserModule, routing, Ng2PageScrollModule.forRoot()],
     bootstrap: [AppComponent]
 })
 export class AppModule {

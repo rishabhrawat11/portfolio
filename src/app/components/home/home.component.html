@@ -1,11 +1,15 @@
 <div class="sliders">
         <div >
-            <header>
-              <h1 class="header-text">Rishabh Rawat</h1>
+            <header parallax speed='10' id="header">
+              <div class="header-text-container">
+              <h1 class="header-text" data-aos="fade-up">RISHABH RAWAT</h1>
+              <h1 class="header-text" data-aos="fade-up">PHOTOGRAPHY</h1>
+              </div>
+              <a pageScroll [pageScrollOffset]="0" [pageScrollDuration]="2000" [pageScrollEasing]="myEasing" href="#about-me" [pageScrollEasing]="myEasing" ><i class="fa fa-chevron-circle-down down-btn animated infinite pulse"></i></a>
             </header>
         </div>
         <div class="home-content">
-            <div class="about-me">
+            <div class="about-me" id="about-me" parallax speed='10' >
               <div class="row">
                 <div><h4 class="title-home"  data-aos="fade-up">Little something about me...</h4></div>
                 <div class="columns  medium-6 large-6 small-12 image small-order-1">
@@ -20,17 +24,18 @@
 
               </div>
             </div>
-            <div class="quote-container">
+            <div class="quote-container" parallax speed='15' id="quote">
               <div class="row"  data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="1000">
               <p class="quote">“Art is what we call…the thing an artist does. It’s not the medium or the oil or the price or whether it hangs on a wall or you eat it. What matters, what makes it art, is that the person who made it overcame the resistance, ignored the voice of doubt and made something worth making. Something risky. Something human. Art is not in the …eye of the beholder. It’s in the soul of the artist.” ― Seth Godin</p>
               </div>
+
             </div>
-          <div class="for-gallery">
-            <div class="w-btn"  data-aos="fade-down" data-aos-duration="2000" >
+          <div class="for-gallery" parallax speed='20' id="gallery">
+            <div class="w-btn"  data-aos="fade-down"  >
             <button class="btn btn-4 btn-4a icon-arrow-right" [routerLink]="['gallery']">See my work...</button>
             </div>
           </div>
-          <div class="h-contact">
+          <div class="h-contact" parallax speed='25' id="contact">
               <div class="inner-contact"  data-aos="fade-up">
                 <h1 class="title-email">In case you have any doubts, feel free to contact me</h1>
                 <h4 class="contact-email">rishabhrawat67@gmail.com</h4>
@@ -39,6 +44,7 @@
 
 
               </div>
+            <a pageScroll [pageScrollOffset]="0" [pageScrollDuration]="2000" [pageScrollEasing]="myEasing" href="#header" [pageScrollEasing]="myEasing" ><i class="fa fa-chevron-circle-up down-btn animated infinite pulse"></i></a>
           </div>
 
         </div>

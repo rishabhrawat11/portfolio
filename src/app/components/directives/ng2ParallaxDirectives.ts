@@ -1,199 +1,74 @@
-// ng2-parallax
+import {Directive, OnInit, ElementRef, Input, EventEmitter } from '@angular/core';
 
-import { Directive,
-  ElementRef,
-  Host,
-  Input,
-  Optional,
-  OnInit } from '@angular/core';
-
-/*
- These are optional values you can include in the config object you can pass into the
- directive for custom properties you want to use this with.  This tool can be used for
- more than just the parallax effect, and it is able to transform anything about the
- [parallaxElement] that you want to have bound to the scrolling of the nested element.
- */
-interface ParallaxConfig {
-  // the css property (converted to camelCase) that you want changed along with the
-  // value you want to assign to the css key; you should use cssProperty if you're
-  // just defining one property without special values
-  cssKey?: string;
-
-  // this is used to define the css property you'd like to modify as you scroll
-  // default is backgroundPositionY
-  cssProperty?: string;
-
-  // ratio defining how fast, slow, or the direction of the changes on scrolling
-  ratio?: number;
-
-  // this is the initial value in pixels for the cssProperty property you defined
-  // before or, if you didn't define one, it defaults to 0
-  initialValue?: number;
-
-  // use this if you want the parallax effect only if the passed in statement is
-  // truthy; default is boolean true
-  canMove?: any;
-
-  // the id for the element on the page you'd like to track the scrolling of in the
-  // case where the element is not available in the current component;
-  // if no id is defined along with no scrollElement below,
-  // it defaults to the scrolling of the body
-  scrollerId?: string;
-
-  // the upper constraint for the css transformation
-  maxValue?: number;
-
-  // the lower constraint for the css transformation
-  minValue?: number;
-
-  // the unit (e.g. 'px', 'em', '%', 'vh', etc.) you want for the parallax effect to use
-  cssUnit?: string;
-
-  // the element in the current component that you'd like the directive to track its
-  // position as it scrolls;  gets assigned to the body if nothing is defined
-  scrollElement?: HTMLElement;
-
-  // the element that you'd like the effects from scrolling the scrollElement applied
-  // to; essentially the element that moves as you scroll
-  parallaxElement?: HTMLElement;
-
-  // what you want to call it to find the particular instance of it if you need to debug
-  name?: string;
-
-  // optional callback function for additional actions during scaling
-  cb?(): void;
-
-  // arguments for optional callback entered into an array; for context-specific
-  cb_args?: any[];
-
-  // callback context in the case where the callback is context-specific
-  cb_context?: any;
-}
+declare var window:any;
 
 @Directive({
-  selector: '[parallax]'
+  selector: '[parallax]',
 })
+export class ng2parallax implements OnInit {
+  @Input('speed') speed:any;
+  @Input('src') src:any;
 
-class Parallax implements OnInit {
-  name: string = 'parallaxDirective';
 
-  @Input() config: ParallaxConfig;
-  // the following @Inputs are all part of the config object, which for
-  // brevity's sake, you can do a bunch of operations in bulk by passing
-  // in the config object; caveat for this is that angular 2 won't permit
-  // more than 9 keys being passed in an object via the template
-  @Input() cssKey: string = 'backgroundPosition';
-  @Input() cssProperty: string = 'backgroundPositionY';
-  @Input() axis: 'X'|'Y' = 'Y';
-  @Input() ratio: number = -.7;
-  @Input() initialValue: number = 0;
-  @Input() canMove: any = true;
-  @Input() scrollerId: string;
-  @Input() maxValue: number;
-  @Input() minValue: number;
-  @Input() cssUnit: string = 'px';
-  @Input() cb;
-  @Input() cb_context: any = null;
-  @Input() cb_args: any[] = [];
-  @Input() scrollElement: any;
-  @Input() parallaxElement: HTMLElement;
+  public element:any;
 
-  parallaxStyles: {} = {};
-
-  private cssValue: string;
-  private isSpecialVal: boolean = false;
-
-  private hostElement: HTMLElement;
-
-  private evaluateScroll = () => {
-    if (this.canMove) {
-      let resultVal: string;
-      let calcVal: number;
-
-      if (this.scrollElement instanceof Window)
-        calcVal = this.scrollElement.scrollY * this.ratio + this.initialValue;
-      else
-        calcVal = this.scrollElement.scrollTop * this.ratio + this.initialValue;
-
-      if (this.maxValue !== undefined && calcVal >= this.maxValue)
-        calcVal = this.maxValue;
-      else if (this.minValue !== undefined && calcVal <= this.minValue)
-        calcVal = this.minValue;
-
-      // added after realizing original setup wasn't compatible in Firefox
-      // debugger;
-      if (this.cssKey === 'backgroundPosition') {
-        if (this.axis === 'X') {
-          resultVal = 'calc(50% + ' + calcVal + this.cssUnit + ') center';
-        } else {
-          resultVal = 'center calc(50% + ' + calcVal + this.cssUnit + ')';
-        }
-      } else if (this.isSpecialVal) {
-        resultVal = this.cssValue + '(' + calcVal + this.cssUnit + ')';
-      } else {
-        resultVal = calcVal + this.cssUnit;
-      }
-
-      if (this.cb) {
-        // console.log('this should be running')
-        this.cb.apply(this.cb_context, this.cb_args);
-      }
-
-      this.parallaxElement.style[this.cssKey] = resultVal;
-    }
+  constructor(el: ElementRef) {
+    this.element = el.nativeElement;
   }
 
-  public ngOnInit() {
-    let cssValArray: string[];
+  ngOnInit(){
+    var t = this,
+      _img = t.src,
+      _speed = t.speed;
 
-    // console.log('%s initialized on element', this.name, this.hostElement);
-    // console.log(this);
+    window.mobileAndTabletcheck = function() {
+      var check = false;
+      (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))check = true})(navigator.userAgent||navigator.vendor||window.opera);
+      return check;
+    }
 
-    for (let prop in this.config) { this[prop] = this.config[prop]; }
-    this.cssProperty = this.cssProperty ? this.cssProperty : 'backgroundPositionY';
-    if (this.cssProperty.match(/backgroundPosition/i)) {
-      if (this.cssProperty.split('backgroundPosition')[1].toUpperCase() === 'X') {
-        this.axis = 'X';
+    var bgObj = t.element;
+    bgObj.style.backgroundRepeat = "repeat";
+    bgObj.style.backgroundAttachment = "fixed";
+
+    bgObj.style.margin = "0 auto"
+    bgObj.style.position = "relative"
+    // bgObj.style.background = "url(" + _img + ")"
+    bgObj.style.backgroundAttachment = 'fixed';
+    var isMobile = window.mobileAndTabletcheck();
+
+    function execute(){
+
+      var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : window(document.documentElement || document.body.parentNode || document.body).scrollTop;
+      var speed = (scrollTop / _speed );
+
+      if(isMobile){
+        speed = speed * .10
+      }
+      if(speed == 0){
+        bgObj.style.backgroundPosition = '0% '+ 0 + '%';
+      }
+      else{
+        bgObj.style.backgroundPosition = '0% '+ speed + '%';
       }
 
-      this.cssProperty = 'backgroundPosition';
-    }
 
-    cssValArray = this.cssProperty.split(':');
-    this.cssKey = cssValArray[0];
-    this.cssValue = cssValArray[1];
+    };
 
-    this.isSpecialVal = this.cssValue ? true : false;
-    if (!this.cssValue) this.cssValue = this.cssKey;
+    // for mobile
+    window.document.addEventListener("touchmove", function(){
+      execute();
+    })
 
-    this.ratio = +this.ratio;
-    this.initialValue = +this.initialValue;
 
-    this.parallaxElement = this.parallaxElement || this.hostElement;
-    if (!this.scrollElement) {
-      if (document.getElementById('parallaxScroll'))
-        this.scrollElement = document.getElementById('parallaxScroll');
-      else if (this.scrollerId) {
-        try {
-          this.scrollElement = document.getElementById(this.scrollerId);
-          if (!this.scrollElement)
-            throw(`The ID passed through the parallaxConfig ('${this.scrollerId}') object was not found in the document.  Defaulting to tracking the scrolling of the window.`);
-        } catch(e) {
-          console.warn(e);
-          this.scrollElement = window;
-        }
-      } else this.scrollElement = window;
-    }
+    // for browsers
+    window.document.addEventListener("scroll", function() {
+      execute();
+    });
 
-    this.evaluateScroll();
+    execute();
 
-    this.scrollElement.addEventListener('scroll', this.evaluateScroll.bind(this));
+
   }
 
-  constructor(element: ElementRef) {
-    this.hostElement = element.nativeElement;
-  }
 }
-
-
-export { Parallax, ParallaxConfig };
