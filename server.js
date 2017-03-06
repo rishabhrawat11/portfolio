@@ -29,7 +29,7 @@ app.get('*', function(req,res){
 
 //get port from Environment and store it in express
 const port = process.env.PORT || 3000;
-app.set('port',port);
+app.set('port',http.address().port);
 
 //create HTTP server
 const server = http.createServer(app);
