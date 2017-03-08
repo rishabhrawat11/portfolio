@@ -8,9 +8,9 @@ var mongoose = require('mongoose');
 const api = require('./server/routes/api');
 
 const app = express();
-mongoose.connect('mongodb://localhost/portfolio',function(){
-  console.log("database is connected");
-});
+// mongoose.connect('mongodb://localhost/portfolio',function(){
+//   console.log("database is connected");
+// });
 
 //Parse data for POST request
 app.use(bodyParser.json());
